@@ -2,20 +2,19 @@
 
 const User = require('./users-model.js');
 
-module.exports = (capability) => {
-  
-  return (req, res, next) => {
+module.exports = (capability) => 
+  (req, res, next) => {
 
     try {
       let [authType, authString] = req.headers.authorization.split(/\s+/);
 
       switch (authType.toLowerCase()) {
-        case 'basic':
-          return _authBasic(authString);
-        case 'bearer':
-          return _authBearer(authString);
-        default:
-          return _authError();
+      case 'basic':
+        return _authBasic(authString);
+      case 'bearer':
+        return _authBearer(authString);
+      default:
+        return _authError();
       }
     } catch (e) {
       _authError();
@@ -52,9 +51,8 @@ module.exports = (capability) => {
     }
 
     function _authError() {
-      next('Invalid User ID/Password');
+      next({status: 401, message: 'Invalid User ID/Password' });
     }
 
   };
   
-};

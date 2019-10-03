@@ -33,9 +33,16 @@ authRouter.get('/oauth', (req,res,next) => {
     .catch(next);
 });
 
-authRouter.post('/key', auth, (req,res,next) => {
-  let key = req.user.generateKey();
-  res.status(200).send(key);
+authRouter.post('/key', auth('get-key'), (req, res) => {
+  res.send(req.user.generateToken('key'));
 });
+
+//New authorized routes
+
+authRouter.get('/hidden-stuff', auth('read'), (req, res) => {res.send('You are authroized');});
+
+authRouter.post('/create-stuff', auth('create'), (req, res) => {res.send('You are authroized');});
+
+authRouter.delete('/delete-stuff', auth('delete'), (req, res) => {res.send('You are authroized');});
 
 module.exports = authRouter;
