@@ -14,11 +14,10 @@ let users = {
   user: {username: 'user', password: 'password', role: 'user'},
 };
 
-beforeAll(async (done) => {
+beforeAll(async () => {
   const admin = await new Users(users.admin).save();
   const editor = await new Users(users.editor).save();
   const user = await new Users(users.user).save();
-  done()
 });
 
 /*
@@ -72,7 +71,7 @@ describe('Auth Middleware', () => {
       // the middleware doesn't return a promise but instead throws an
       // error in the main catch block, so this assertion validates that
       // behavior instead of a standard promise signature
-      middleware(req, res, next)
+      middleware(req, res, next);
       expect(401);
 
     }); // it()
@@ -103,7 +102,7 @@ describe('Auth Middleware', () => {
 
       let req = {
         headers: {
-          authorization: `Bearer ${cachedToken}`
+          authorization: `Bearer ${cachedToken}`,
         },
       };
       let res = {};

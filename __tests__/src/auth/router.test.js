@@ -4,7 +4,6 @@ const jwt = require('jsonwebtoken');
 
 const server = require('../../../src/app.js').server;
 const supergoose = require('../../supergoose.js');
-let User = require('../../../src/auth/users-model');
 let Role = require('../../../src/auth/roles-model');
 
 const mockRequest = supergoose(server);
@@ -37,7 +36,6 @@ describe('Auth Router', () => {
     Object.keys(users).map(key => [key])
   )('%s users', (userType) => {
     
-    let encodedToken;
     let id;
     
     it('can create one', () => {
@@ -47,7 +45,6 @@ describe('Auth Router', () => {
         .then(results => {
           var token = jwt.decode(results.text);
           id = token.id;
-          encodedToken = results.text;
           expect(token.id).toBeDefined();
           expect(token.capabilities).toEqual(roles[users[userType].role]);
         });
